@@ -1,0 +1,47 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/FullAdder.hdl
+
+/**
+ * Computes the sum of three bits.
+ */
+
+CHIP FullAdder {
+    IN a, b, c;  // 1-bit inputs
+    OUT sum,     // Right bit of a + b + c
+        carry;   // Left bit of a + b + c
+
+    PARTS:
+    // Put you code here:
+    Nand(a=a,b=a,out=nota);
+    Nand(a=b,b=b,out=notb);
+    Nand(a = nota, b = b, out = naandb);
+    Nand(a = naandb, b = naandb, out = r1);
+    Nand(a = a, b = notb, out = aandnb);
+    Nand(a = aandnb, b = aandnb, out = r2);
+    Nand(a = r1, b = r1, out = notr1);
+    Nand(a = r2, b = r2, out = notr2);
+    Nand(a = notr1, b = notr2, out = aXorb);
+    Nand(a=aXorb,b=aXorb,out=notaXorb);
+    Nand(a=c,b=c,out=notc);
+    Nand(a = notaXorb, b = c, out = naxorbAndc);
+    Nand(a = naxorbAndc, b = naxorbAndc, out = s1);
+    Nand(a = aXorb, b = notc, out = axorbAndnc);
+    Nand(a = axorbAndnc, b = axorbAndnc, out = s2);
+    Nand(a = s1, b = s1, out = nots1);
+    Nand(a = s2, b = s2, out = nots2);
+    Nand(a = nots1, b = nots2, out = sum);
+    Nand(a = a, b = b, out = anandb);
+    Nand(a = anandb, b = anandb, out = aAndb);
+    Nand(a = b, b = c, out = bnandc);
+    Nand(a = bnandc, b = bnandc, out = bAndc);
+    Nand(a = a, b = c, out = anandc);
+    Nand(a = anandc, b = anandc, out = aAndc);
+    Nand(a = aAndb, b = aAndb, out = notaandb);
+    Nand(a = bAndc, b = bAndc, out = notbandc);
+    Nand(a = notaandb, b = notbandc, out = aAndbOrbAndc);
+    Nand(a = aAndbOrbAndc, b = aAndbOrbAndc, out = notaandborbandc);
+    Nand(a = aAndc, b = aAndc, out = notaandc);
+    Nand(a = notaandborbandc, b = notaandc, out = carry);
+}
